@@ -21,7 +21,7 @@ public class POLineEntity {
     private Integer id;
 	
 	@NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "po_number")
     private POEntity poNumber;
 	

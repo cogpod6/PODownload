@@ -13,9 +13,9 @@ public class POListener {
 	@Autowired
 	POService poService;
 	
-	@KafkaListener(topics = "po_download",groupId = "truck-sch", containerFactory = "kafkaListenerContainerFactory")
+	@KafkaListener(topics = "po-download", groupId = "truck-sch", containerFactory = "kafkaListenerContainerFactory")
     public void listenToKafkaTopic(PO po){
-        System.out.println("Message received from Kafka topic is  ::::  " + po);
+        System.out.println("Message received from Kafka topic is  ::::  " + po.getPoNumber());
         poService.createPO(po);
     }
 	

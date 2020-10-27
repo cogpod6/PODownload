@@ -2,9 +2,6 @@ package com.cts.learning.poDownload.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +26,6 @@ public class POService {
 		POEntity poEntity = mapToEntity(poModel);
 		POEntity responseEntity = poRepository.save(poEntity);
 		
-		List<POLineEntity> poLineEntityList = new ArrayList<>(); 
 		for (POLine poLine : poModel.getPoLines()) {
 			POLineEntity poLineEO = new POLineEntity();
 			
@@ -39,23 +35,8 @@ public class POService {
 			poLineEO.setItemName(poLine.getItemName());
 			poLineEO.setQuantity(poLine.getQuantity());
 			
-			poLineEntityList.add(poLineEO);
+			poLineRepository.save(poLineEO);
 		}
-		
-		Iterable<POLineEntity> iterable = () -> new Iterator<POLineEntity>() {
-			private int index = 0;
-			
-			@Override
-			public boolean hasNext() {
-				return poLineEntityList.size() > index;
-			}
-			
-			@Override
-			public POLineEntity next() {
-				return poLineEntityList.get(index++);
-			}
-		};
-		poLineRepository.saveAll(iterable);
 		
 		return mapToModel(responseEntity);
 	}

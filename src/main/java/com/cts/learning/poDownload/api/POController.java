@@ -28,8 +28,14 @@ public class POController {
 
 	@GetMapping("/{poNumber}")
 	public ResponseEntity<PO> getPODetails(@PathVariable String poNumber) {
-		PO responseModel = poService.getPODetails(poNumber);
-		return ResponseEntity.status(HttpStatus.OK).body(responseModel);
+		ResponseEntity<PO> response = ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+		try {
+			PO responseModel = poService.getPODetails(poNumber);
+			response = ResponseEntity.status(HttpStatus.OK).body(responseModel);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+		return response;
 	}
 	
 }
